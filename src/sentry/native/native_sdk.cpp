@@ -442,6 +442,20 @@ void NativeSDK::init() {
 		sentry_options_set_backend(options, NULL);
 	}
 
+	String reporter_path = SENTRY_OPTIONS()->get_external_crash_reporter_path();
+	if (!reporter_path.is_empty()) {
+		if (reporter_path.begins_with("res://") || reporter_path.begins_with("user://")) {
+			reporter_path = ProjectSettings::get_singleton()->globalize_path(reporter_path);
+		} else if (reporter_path.is_relative_path()) {
+			reporter_path = exe_dir.path_join(reporter_path);
+		}
+		if (FileAccess::file_exists(reporter_path)) {
+			sentry_options_set_external_crash_reporter_path(options, reporter_path.utf8());
+		} else {
+			ERR_PRINT(vformat("Sentry: External crash reporter not found (%s); crash envelopes will not be uploaded automatically.", reporter_path));
+		}
+	}
+
 	for (const Ref<SentryAttachment> &att : SENTRY_OPTIONS()->get_default_attachments()) {
 		String absolute_path = att->get_globalized_path();
 		sentry::logging::print_debug("adding attachment \"", absolute_path, "\"");

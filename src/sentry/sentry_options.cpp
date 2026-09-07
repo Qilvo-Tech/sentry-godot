@@ -121,6 +121,7 @@ void SentryOptions::_define_project_settings(const Ref<SentryOptions> &p_options
 
 	_define_setting("sentry/options/auto_init", p_options->auto_init);
 	_define_setting("sentry/options/skip_auto_init_on_editor_play", p_options->skip_auto_init_on_editor_play);
+	_define_setting("sentry/options/external_crash_reporter_path", p_options->external_crash_reporter_path, false);
 
 	_define_setting("sentry/options/dsn", p_options->dsn);
 	_define_setting("sentry/options/release", p_options->release, false);
@@ -172,6 +173,7 @@ void SentryOptions::_load_project_settings(const Ref<SentryOptions> &p_options) 
 
 	p_options->auto_init = ProjectSettings::get_singleton()->get_setting("sentry/options/auto_init", p_options->auto_init);
 	p_options->skip_auto_init_on_editor_play = ProjectSettings::get_singleton()->get_setting("sentry/options/skip_auto_init_on_editor_play", p_options->skip_auto_init_on_editor_play);
+	p_options->external_crash_reporter_path = ProjectSettings::get_singleton()->get_setting("sentry/options/external_crash_reporter_path", p_options->external_crash_reporter_path);
 
 	// DSN: project setting > env var > default.
 	String ps_dsn = ProjectSettings::get_singleton()->get_setting("sentry/options/dsn", p_options->dsn);
@@ -390,6 +392,7 @@ void SentryOptions::release_callables() {
 }
 
 void SentryOptions::_bind_methods() {
+	BIND_PROPERTY(SentryOptions, PropertyInfo(Variant::STRING, "external_crash_reporter_path", PROPERTY_HINT_FILE), set_external_crash_reporter_path, get_external_crash_reporter_path);
 	BIND_PROPERTY(SentryOptions, PropertyInfo(Variant::STRING, "dsn"), set_dsn, get_dsn);
 	BIND_PROPERTY(SentryOptions, PropertyInfo(Variant::STRING, "release"), set_release, get_release);
 	BIND_PROPERTY(SentryOptions, PropertyInfo(Variant::STRING, "dist"), set_dist, get_dist);

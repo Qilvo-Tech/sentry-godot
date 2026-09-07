@@ -106,6 +106,7 @@ private:
 
 	bool auto_init = true;
 	bool skip_auto_init_on_editor_play = false;
+	String external_crash_reporter_path = "";
 	String dsn = "";
 	String release = "{app_name}@{app_version}";
 	String dist = "";
@@ -161,6 +162,9 @@ public:
 
 	_FORCE_INLINE_ bool should_skip_auto_init_on_editor_play() const { return skip_auto_init_on_editor_play; }
 	_FORCE_INLINE_ void set_skip_auto_init_on_editor_play(bool p_skip) { skip_auto_init_on_editor_play = p_skip; }
+
+	_FORCE_INLINE_ String get_external_crash_reporter_path() const { return external_crash_reporter_path; }
+	_FORCE_INLINE_ void set_external_crash_reporter_path(const String &p_path) { external_crash_reporter_path = p_path; }
 
 	_FORCE_INLINE_ String get_dsn() const { return dsn; }
 	_FORCE_INLINE_ void set_dsn(const String &p_dsn) { dsn = p_dsn; }
