@@ -449,10 +449,9 @@ void NativeSDK::init() {
 		} else if (reporter_path.is_relative_path()) {
 			reporter_path = exe_dir.path_join(reporter_path);
 		}
-		if (FileAccess::file_exists(reporter_path)) {
-			sentry_options_set_external_crash_reporter_path(options, reporter_path.utf8());
-		} else {
-			ERR_PRINT(vformat("Sentry: External crash reporter not found (%s); crash envelopes will not be uploaded automatically.", reporter_path));
+		sentry_options_set_external_crash_reporter_path(options, reporter_path.utf8());
+		if (!FileAccess::file_exists(reporter_path)) {
+			ERR_PRINT(vformat("Sentry: External crash reporter not found (%s); crash envelopes will remain local.", reporter_path));
 		}
 	}
 
