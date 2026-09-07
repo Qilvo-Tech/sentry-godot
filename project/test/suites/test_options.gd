@@ -45,6 +45,7 @@ func test_string_properties(property: String, test_parameters := [
 		["release"],
 		["dist"],
 		["environment"],
+		["external_crash_reporter_path"],
 ]) -> void:
 	options.set(property, "test-value")
 	assert_str(options.get(property)).is_equal("test-value")
